@@ -10,7 +10,7 @@ A production-ready CRM for managing insurance leads, customers, and policy workf
 - **Customer profiles** — Policy history, dependents, interactions, and renewal context in one view.
 - **Policy workflow tracking** — Policies, sum insured, premiums, and expiry signals for proactive follow-up.
 - **Dashboard with key metrics** — Book of business, renewals, claims pipeline, and performance indicators.
-- **Responsive UI** — Works on phone, tablet, and desktop for field and desk teams.
+- **Responsive UI** — Works on phone, tablet, and desktop for field annd desk teams.
 
 ## Tech Stack
 
