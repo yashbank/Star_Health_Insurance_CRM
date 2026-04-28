@@ -1,0 +1,14 @@
+{
+  "name": "star-health-insurance-crm",
+  "private": true,
+  "version": "1.0.0",
+  "workspaces": ["backend", "frontend"],
+  "scripts": {
+    "dev": "concurrently -n api,web -c blue,magenta \"npm run dev -w star-health-insurance-crm-api\" \"npm run dev -w star-health-insurance-crm-ui\"",
+    "browser": "bash ./start-live.sh",
+    "build": "npm run build -w star-health-insurance-crm-ui"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}
