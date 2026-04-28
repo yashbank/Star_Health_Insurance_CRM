@@ -106,9 +106,9 @@ Host the Node API separately (Railway, Render, Fly.io, EC2, etc.) with `FRONTEND
 
 ## Demo
 
-**Live URL:** _Add your production link after deploy — e.g. `https://<project>.vercel.app`_
+**Live URL (Vercel):** [https://frontend-red-omega-34.vercel.app](https://frontend-red-omega-34.vercel.app)
 
-Until then, run locally with `bash ./start-live.sh` and open `http://localhost:5173`.
+Set **`VITE_API_ORIGIN`** in the Vercel project to your deployed API URL so login and data load in production. Until the API is configured, use the app locally with `bash ./start-live.sh` and open `http://localhost:5173`.
 
 ---
 
