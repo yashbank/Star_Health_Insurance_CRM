@@ -99,7 +99,7 @@ See [backend/API.md](backend/API.md).
 This repo’s UI is a **Vite SPA**. Deploy the **`frontend`** directory (or set the project root to `frontend` in Vercel) so static assets and SPA rewrites apply. `frontend/vercel.json` already maps routes to `index.html`.
 
 1. Install the [Vercel CLI](https://vercel.com/docs/cli) or connect the GitHub repo in the Vercel dashboard.
-2. Configure **`VITE_API_ORIGIN`** in Vercel project settings to your production API URL (no trailing slash).
+2. **Required:** Configure **`VITE_API_ORIGIN`** in Vercel (Project → Settings → Environment Variables) to your **production API base URL** (no trailing slash), for **Production** and **Preview** as needed. Without it, the browser posts to the static host and login fails (often **405**). Redeploy after saving.
 3. Deploy: `cd frontend && npx vercel --prod` (or push to a connected branch for automatic builds).
 
 Host the Node API separately (Railway, Render, Fly.io, EC2, etc.) with `FRONTEND_ORIGIN` set to your Vercel domain for CORS.

@@ -2,7 +2,13 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Shield, Loader2, Wifi, WifiOff } from "lucide-react";
 import { useAuth } from "../context/AuthContext.jsx";
-import { backendUrl } from "../lib/apiOrigin.js";
+import { apiOrigin, backendUrl } from "../lib/apiOrigin.js";
+
+function isLocalHost() {
+  if (typeof window === "undefined") return true;
+  const h = window.location.hostname;
+  return h === "localhost" || h === "127.0.0.1";
+}
 
 export default function Login() {
   const { login } = useAuth();
@@ -16,6 +22,10 @@ export default function Login() {
   useEffect(() => {
     let cancel = false;
     async function ping() {
+      if (!apiOrigin() && !isLocalHost()) {
+        if (!cancel) setApiOk(false);
+        return;
+      }
       try {
         const r = await fetch(backendUrl("/health"), { method: "GET" });
         if (!cancel) setApiOk(r.ok);
@@ -48,6 +58,14 @@ export default function Login() {
         setApiOk(false);
       } else if (status === 401) {
         setErr("Invalid email or password.");
+      } else if (
+        (status === 405 || status === 404) &&
+        !apiOrigin() &&
+        !isLocalHost()
+      ) {
+        setErr(
+          "Production has no API URL: set VITE_API_ORIGIN in Vercel (Project → Settings → Environment Variables) to your backend origin, e.g. https://your-api.railway.app — no trailing slash — then redeploy. Until then, login only works locally with npm run dev / start-live.sh."
+        );
       } else if (status === 503) {
         setErr(
           serverMsg ||
@@ -84,6 +102,16 @@ export default function Login() {
           <p className="mt-1 text-sm text-slate-400">
             Sign in to manage leads, customers, policies, renewals, and claims
           </p>
+          {typeof window !== "undefined" && !apiOrigin() && !isLocalHost() && (
+            <p className="mt-4 rounded-lg border border-amber-500/40 bg-amber-950/40 px-3 py-2 text-left text-xs leading-relaxed text-amber-100">
+              <span className="font-semibold text-amber-50">Deployed without API URL.</span> Add{" "}
+              <code className="rounded bg-slate-900 px-1 py-0.5 font-mono text-amber-200/90">
+                VITE_API_ORIGIN
+              </code>{" "}
+              in Vercel (your backend base URL, no trailing slash) and redeploy. Otherwise login cannot reach the
+              server.
+            </p>
+          )}
           <div
             className={`mt-4 inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs font-medium ${
               apiOk === null
